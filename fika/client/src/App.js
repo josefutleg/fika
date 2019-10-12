@@ -1,87 +1,93 @@
 import React, { Component } from "react";
 // import logo from './logo.svg';
 import "./App.css";
-import Counters from "./components/counters";
-import NavBar from "./components/navbar";
-import Weather from "./components/weatherWidget";
-import _loadWeather from "./services/weatherService.js";
+import { _loadCurrentWeather } from "./weatherWidget/weatherService";
+import Weather from "./weatherWidget/weatherWidget";
+import Sidebar from "./sidebar/sidebar";
 
 class App extends Component {
   state = {
-    counters: [
-      {
-        id: 1,
-        value: 4
-      },
-      {
-        id: 2,
-        value: 0
-      },
-      {
-        id: 3,
-        value: 0
-      },
-      {
-        id: 4,
-        value: 0
-      }
-    ],
-    weather: ""
+    page: "home",
+    weather: "",
+    isOpen: false
   };
 
-  // componentDidMount() {
-  //   return _loadWeather().then(resultingJSON =>
-  //     this.setState({ weather: resultingJSON })
-  //   );
-  // }
-
-  handleIncrement = counter => {
-    const counters = [...this.state.counters];
-    const index = counters.indexOf(counter);
-    counters[index] = { ...counter };
-    counters[index].value++;
-    this.setState({ counters });
+  getWeather = () => {
+    return _loadCurrentWeather().then(resultingJSON =>
+      this.setState({ weather: resultingJSON })
+    );
   };
 
-  handleReset = () => {
-    const counters = this.state.counters.map(c => {
-      c.value = 0;
-      return c;
-    });
-    this.setState({ counters });
+  componentDidMount() {
+    this.loadInterval = setInterval(this.getTime, 1000);
+    this.getWeather();
+    this.loadInterval = setInterval(this.getWeather, 3600000);
+  }
+
+  collapse = () => {
+    if (this.state.isOpen == false) this.setState({ isOpen: true });
+    else this.setState({ isOpen: false });
   };
 
-  handleDelete = counterId => {
-    const counters = this.state.counters.filter(c => c.id !== counterId);
-    this.setState({ counters });
-  };
+  getTime = () => {
+    const takeTwelve = n => (n > 12 ? n - 12 : n),
+      addZero = n => (n < 10 ? "0" + n : n);
 
-  handleDecrease = counter => {
-    const counters = [...this.state.counters];
-    const index = counters.indexOf(counter);
-    counters[index] = { ...counter };
-    if (counters[index].value !== 0) {
-      counters[index].value--;
-      this.setState({ counters });
-    } else this.handleDelete(counters[index].id);
-  };
+    setInterval(() => {
+      let d, h, m, s, t, amPm;
 
+      d = new Date();
+      h = addZero(takeTwelve(d.getHours()));
+      m = addZero(d.getMinutes());
+      s = addZero(d.getSeconds());
+      t = `${h}:${m}:${s}`;
+
+      amPm = d.getHours() >= 12 ? "pm" : "am";
+
+      this.setState({
+        h: h,
+        time: t,
+        amPm: amPm
+      });
+    }, 1000);
+  };
+  loadHome = event => {
+    this.setState({ page: "home" });
+  };
+  loadCalendar = event => {
+    this.setState({ page: "calendar" });
+  };
+  loadNotes = event => {
+    this.setState({ page: "notes" });
+  };
   render() {
+    const openStyle = {
+      marginLeft: "20%"
+    };
+    const closeStyle = {
+      marginLeft: "7%"
+    };
     return (
       <div>
-        <NavBar
-          totalCounters={this.state.counters.filter(c => c.value > 0).length}
+        <Sidebar
+          handleCollapse={this.collapse}
+          handleHome={this.loadHome}
+          handleCalendar={this.loadCalendar}
+          handleNotes={this.loadNotes}
+          time={this.state.time}
+          amPm={this.state.amPm}
+          h={this.state.h}
+          temp={this.state.weather.temp}
+          description={this.state.weather.description}
+          isOpen={this.state.isOpen}
         />
-
-        <main className="container">
-          <Counters
-            counters={this.state.counters}
-            onDelete={this.handleDelete}
-            onIncrement={this.handleIncrement}
-            onDecrease={this.handleDecrease}
-            onReset={this.handleReset}
-          />
-          <Weather />
+        <main
+          className="mainCont"
+          style={this.state.isOpen ? openStyle : closeStyle}
+        >
+          {this.state.page == "home" && <h1>Home!</h1>}
+          {this.state.page == "calendar" && <h1>Calendar!</h1>}
+          {this.state.page == "notes" && <h1>Notes!</h1>}
         </main>
       </div>
     );

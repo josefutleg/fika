@@ -62,8 +62,13 @@ app.get("/currentWeather", function(req, res) {
       `https://api.openweathermap.org/data/2.5/weather?id=5391959&lang=en&units=imperial&appid=${client_id}`
     )
     .then(response => {
-      console.log(response.data);
-      res.json(response.data);
+      // console.log(response.data);
+      let w = new CurrentWeather(
+        response.data.main.temp,
+        response.data.weather[0].main
+      );
+      console.log(w);
+      res.json(w);
     })
     .catch(error => {
       console.log(error);
