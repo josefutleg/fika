@@ -1,0 +1,47 @@
+.weatherBox {
+  /* text-align: center; */
+  /* width: 100px; */
+  /* border-radius: 20%; */
+  /* border: solid 1px; */
+  height: 60px;
+  /* background-color: ghostwhite; */
+  /* animation: fadeIn ease 1s; */
+  /* float: right; */
+}
+
+.fadeIn {
+  animation: fadeIn ease 1s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeinout {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeinout {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

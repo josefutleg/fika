@@ -1,0 +1,38 @@
+.sideNavClose {
+  float: left;
+  text-align: center;
+  height: 100%;
+  width: 50px;
+  background-color: lightcoral;
+  position: fixed;
+  overflow: auto;
+  margin: 0;
+  padding: 0;
+  padding-top: 18px;
+}
+.sideNavOpen {
+  float: left;
+  height: 100%;
+  width: 200px;
+  background-color: lightcoral;
+  position: fixed;
+  overflow: auto;
+  margin: 0;
+  padding: 0;
+  padding-top: 18px;
+}
+
+.burger:hover {
+  cursor: pointer;
+  color: aquamarine;
+}
+
+.selectionClose:hover {
+  cursor: pointer;
+  color: lightgoldenrodyellow;
+}
+.selectionOpen:hover {
+  cursor: pointer;
+  color: lightgoldenrodyellow;
+  background-color: darkgray;
+}
