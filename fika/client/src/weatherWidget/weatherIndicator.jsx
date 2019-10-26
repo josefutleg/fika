@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCloud,
   faCloudMoon,
   faMoon,
   faSun,
-  fas,
   faCloudSun
 } from "@fortawesome/free-solid-svg-icons";
 class Indicator extends Component {
@@ -15,29 +13,41 @@ class Indicator extends Component {
     icon: faCloudSun
   };
 
-  changeIcon = () => {
-    if (this.props.amPm == "am") {
-      if (this.props.description == "Clouds") {
-        this.setState({ icon: faCloudSun });
-        console.log("checked2");
-        if (this.props.description == "Clear") {
-          this.setState({ icon: faSun });
-          console.log("checked");
-        }
-      } else this.setState({ icon: faSun });
-    }
-    if (this.props.amPm == "pm" && this.props.h > 7) {
-      if (this.props.description == "Clear") this.setState({ icon: faMoon });
-      if (this.props.description == "Clouds")
-        this.setState({ icon: faCloudMoon });
-      else this.setState({ icon: faMoon });
-    }
-  };
+  //Fog, Mist, Haze, Rain
 
-  componentDidMount() {
-    this.changeIcon();
-    this.loadInterval = setInterval(this.changeIcon, 10000);
-  }
+  // changeIcon = () => {
+  //   if (this.props.amPm == "am") {
+  //     if (this.props.description == "Clouds") {
+  //       this.setState({ icon: faCloudSun });
+  //       console.log("checked2");
+  //       if (this.props.description == "Clear") {
+  //         this.setState({ icon: faSun });
+  //         console.log("checked");
+  //       }
+  //     } else this.setState({ icon: faSun });
+  //   }
+  //   if (this.props.amPm == "pm") {
+  //     if (this.props.description == "Clouds") {
+  //       this.setState({ icon: faCloudSun });
+  //       console.log("checked2");
+  //       if (this.props.description == "Clear") {
+  //         this.setState({ icon: faSun });
+  //         console.log("checked");
+  //       }
+  //     } else this.setState({ icon: faSun });
+  //   }
+  //   if (this.props.amPm == "pm" && this.props.h > 6) {
+  //     if (this.props.description == "Clear") this.setState({ icon: faMoon });
+  //     if (this.props.description == "Clouds")
+  //       this.setState({ icon: faCloudMoon });
+  //     else this.setState({ icon: faMoon });
+  //   }
+  // };
+
+  // componentDidMount() {
+  //   setTimeout(this.changeIcon, 1000);
+  //   this.loadInterval = setInterval(this.changeIcon, 1800000);
+  // }
 
   render() {
     const divStyle = {
@@ -46,7 +56,7 @@ class Indicator extends Component {
     };
     return (
       <div style={divStyle}>
-        <FontAwesomeIcon icon={this.state.icon} size="lg" />
+        <FontAwesomeIcon icon={this.props.icon} size="lg" />
         {/* {this.state.amPm == "am" && <FontAwesomeIcon icon={faCloud} />}
         {this.state.amPm == "pm" && <FontAwesomeIcon icon={faCloudMoon} />} */}
       </div>

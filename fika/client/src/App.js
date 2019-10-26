@@ -1,15 +1,14 @@
 import React, { Component } from "react";
-// import logo from './logo.svg';
 import "./App.css";
 import { _loadCurrentWeather } from "./weatherWidget/weatherService";
-import Weather from "./weatherWidget/weatherWidget";
-import Sidebar from "./sidebar/sidebar";
+import Nav from "./sidebar/sideNav";
 
 class App extends Component {
   state = {
     page: "home",
     weather: "",
-    isOpen: false
+    isExpanded: false,
+    viewProject: null
   };
 
   getWeather = () => {
@@ -25,8 +24,8 @@ class App extends Component {
   }
 
   collapse = () => {
-    if (this.state.isOpen == false) this.setState({ isOpen: true });
-    else this.setState({ isOpen: false });
+    if (this.state.isExpanded === false) this.setState({ isExpanded: true });
+    else this.setState({ isExpanded: false });
   };
 
   getTime = () => {
@@ -51,6 +50,7 @@ class App extends Component {
       });
     }, 1000);
   };
+
   loadHome = event => {
     this.setState({ page: "home" });
   };
@@ -58,7 +58,25 @@ class App extends Component {
     this.setState({ page: "calendar" });
   };
   loadNotes = event => {
+    this.setState({ isExpanded: false });
     this.setState({ page: "notes" });
+  };
+  loadProjects = event => {
+    this.setState({ isExpanded: false });
+    this.setState({ page: "projects" });
+  };
+  viewProject = event => {
+    // event.stopPropagation();
+    console.log(event.target.getAttribute("dataname"));
+    console.log(event.target.getAttribute("datavalue"));
+    let currentProjectName = event.target.getAttribute("dataname");
+    let currentProjectId = event.target.getAttribute("datavalue");
+    this.setState({ viewProject: currentProjectName });
+    this.setState({ isExpanded: false });
+    this.setState({ page: "view project" });
+  };
+  loadTasks = event => {
+    this.setState({ page: "tasks" });
   };
   render() {
     const openStyle = {
@@ -67,27 +85,40 @@ class App extends Component {
     const closeStyle = {
       marginLeft: "7%"
     };
+    const dimPage = {
+      backgroundColor: "lightgray"
+    };
+    const regPage = {
+      backgroundColor: "snow"
+    };
     return (
       <div>
-        <Sidebar
-          handleCollapse={this.collapse}
-          handleHome={this.loadHome}
-          handleCalendar={this.loadCalendar}
-          handleNotes={this.loadNotes}
-          time={this.state.time}
+        <Nav
+          handleProjects={this.loadProjects}
+          viewProject={this.viewProject}
+          expandNav={this.collapse}
+          isExpanded={this.state.isExpanded}
+          loadNotes={this.loadNotes}
+          loadTasks={this.loadTasks}
+          loadHome={this.loadHome}
           amPm={this.state.amPm}
-          h={this.state.h}
-          temp={this.state.weather.temp}
+          h={parseInt(this.state.h)}
           description={this.state.weather.description}
-          isOpen={this.state.isOpen}
+          temp={this.state.weather.temp}
+          time={this.state.time}
         />
         <main
           className="mainCont"
-          style={this.state.isOpen ? openStyle : closeStyle}
+          style={this.state.isExpanded ? openStyle : closeStyle}
         >
-          {this.state.page == "home" && <h1>Home!</h1>}
-          {this.state.page == "calendar" && <h1>Calendar!</h1>}
-          {this.state.page == "notes" && <h1>Notes!</h1>}
+          {this.state.page === "home" && <h1>Home!</h1>}
+          {this.state.page === "calendar" && <h1>Calendar!</h1>}
+          {this.state.page === "notes" && <h1>Notes!</h1>}
+          {this.state.page === "projects" && <h1>Projects!</h1>}
+          {this.state.page === "view project" && (
+            <h1>{this.state.viewProject}</h1>
+          )}
+          {this.state.page === "tasks" && <h1>Tasks!</h1>}
         </main>
       </div>
     );

@@ -1,12 +1,7 @@
 .weatherBox {
-  /* text-align: center; */
-  /* width: 100px; */
-  /* border-radius: 20%; */
-  /* border: solid 1px; */
   height: 60px;
-  /* background-color: ghostwhite; */
-  /* animation: fadeIn ease 1s; */
-  /* float: right; */
+  padding-top: 10px;
+  margin-bottom: 10px;
 }
 
 .fadeIn {

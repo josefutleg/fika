@@ -1,38 +1,106 @@
-.sideNavClose {
-  float: left;
-  text-align: center;
+.sideNav {
   height: 100%;
-  width: 50px;
-  background-color: lightcoral;
   position: fixed;
-  overflow: auto;
   margin: 0;
   padding: 0;
-  padding-top: 18px;
+  padding-top: 40px;
 }
-.sideNavOpen {
-  float: left;
-  height: 100%;
-  width: 200px;
-  background-color: lightcoral;
+.filler1,
+.filler2 {
   position: fixed;
-  overflow: auto;
   margin: 0;
   padding: 0;
-  padding-top: 18px;
+  background-color: dimgrey;
 }
 
+.filler1 {
+  width: 67px;
+  height: 40px;
+  top: 0;
+}
+.filler2 {
+  width: 67px;
+  height: 100%;
+}
+
+.burger {
+  margin-bottom: 20px;
+}
 .burger:hover {
   cursor: pointer;
   color: aquamarine;
 }
-
+.selectionClose {
+  padding-bottom: 20px;
+}
+.selectionClose .tooltip {
+  position: absolute;
+  left: 500px;
+  visibility: hidden;
+  opacity: 0;
+}
+.selectionClose:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
 .selectionClose:hover {
   cursor: pointer;
   color: lightgoldenrodyellow;
 }
-.selectionOpen:hover {
+
+.option {
+  position: relative;
+  background-color: dimgrey;
+  padding: 20px;
+}
+.optionIcon {
+  color: snow;
+}
+
+.option:hover {
+  cursor: pointer;
+  opacity: 1;
+}
+.expandOptions {
+  position: absolute;
+  top: 0px;
+  left: 67px;
+}
+.quickSelect {
+  position: absolute;
+  left: 80px;
+  padding: 20px;
+  top: 80px;
+  border-radius: 5%;
+  text-align: center;
+  width: 300px;
+  height: 300px;
+  background-color: lightcoral;
+}
+
+.expandOption {
+  width: 100%;
+  float: left;
+  margin: 0;
+  padding: 10px;
+  overflow: hidden;
+}
+.optionIcon:hover {
   cursor: pointer;
   color: lightgoldenrodyellow;
-  background-color: darkgray;
+}
+.expandOption:hover {
+  color: whitesmoke;
+  background-color: lightslategrey;
+  /* opacity: 1; */
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

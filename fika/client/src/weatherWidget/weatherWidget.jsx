@@ -6,7 +6,7 @@ import Indicator from "./weatherIndicator";
 import { parse } from "querystring";
 
 class Weather extends Component {
-  state = { weather: " " };
+  state = { weather: "" };
 
   // getWeather = () => {
   //   return _loadCurrentWeather().then(resultingJSON =>
@@ -26,12 +26,13 @@ class Weather extends Component {
     };
     return (
       <div>
-        {this.props.isOpen == true && (
+        {this.props.isExpanded === true && (
           <div className="weatherBox">
             <Indicator
               h={parseInt(this.props.h)}
               amPm={this.props.amPm}
               description={this.props.description}
+              icon={this.props.icon}
             />
             <Temperature temp={this.props.temp} />
             <p style={divStyle}>{this.props.time}</p>

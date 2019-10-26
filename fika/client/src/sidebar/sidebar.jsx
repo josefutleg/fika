@@ -5,53 +5,131 @@ import {
   faHamburger,
   faCalendar,
   faHome,
-  faStickyNote
+  faStickyNote,
+  faProjectDiagram,
+  faTasks,
+  faChevronRight,
+  faChevronLeft
 } from "@fortawesome/free-solid-svg-icons";
 import "./sidebarStyle.css";
 class Sidebar extends Component {
   state = {
-    // openClose: "close"
+    options: [
+      {
+        id: 1,
+        destination: null,
+        icon: faHamburger,
+        func: this.props.handleCollapse
+      },
+      { id: 2, destination: "home", icon: faHome, func: this.props.handleHome },
+      {
+        id: 3,
+        destination: "calendar",
+        icon: faCalendar,
+        func: this.props.handleCalendar
+      },
+      {
+        id: 4,
+        destination: "notes",
+        icon: faStickyNote,
+        func: this.props.handleNotes
+      },
+      {
+        id: 5,
+        destination: "projects",
+        icon: faProjectDiagram,
+        func: this.props.handleProjects,
+        expand: [
+          { project: "Project 1" },
+          { project: "Project 2" },
+          { project: "Project 3" },
+          { project: "Project 4" },
+          { project: "Project 5" }
+        ]
+      },
+      {
+        id: 6,
+        destination: "tasks",
+        icon: faTasks,
+        func: this.props.handleTasks
+      }
+    ],
+    expanded: false
   };
-  // collapse = () => {
-  //   if (this.state.openClose == "close") this.setState({ openClose: "open" });
-  //   else this.setState({ openClose: "close" });
-  // };
+
+  expand = e => {
+    e.stopPropagation();
+
+    if (this.state.expanded == false) {
+      this.setState({ expanded: true });
+      const projDiv = document.getElementsByClassName("selectionOpen")[3];
+      document.getElementsByClassName("selectionOpen")[3].style.height =
+        "100px";
+      for (let i in this.state.options[4].expand) {
+        console.log(this.state.options[4].expand[i].project);
+        let p = document.createElement("P");
+        let t = document.createTextNode(
+          this.state.options[4].expand[i].project
+        );
+        p.appendChild(t);
+        p.classList.add("expOPt");
+        p.setAttribute("data-value", i);
+        document.getElementsByClassName("selectionOpen")[3].appendChild(p);
+      }
+    } else {
+      this.setState({ expanded: false });
+      // let pp = document.getElementsByClassName("expOpt");
+      let pp = document.getElementsByClassName("selectionOpen"[3]);
+      console.log(pp);
+      // pp.removeChild();
+      document.getElementsByClassName("selectionOpen")[3].style.height = "50px";
+    }
+  };
+
+  handleHover = e => {
+    console.log("hello");
+  };
 
   render() {
     const pStyle = {
       paddingLeft: "20px"
     };
     const spanStyle = {
-      paddingLeft: "10px"
+      paddingLeft: "10%"
+    };
+    const navStyleOpen = {
+      width: "200px",
+      textAlign: "initial"
+    };
+    const navStyleClose = {
+      width: "50px"
+    };
+    const expandStyle = {
+      height: "100px"
+    };
+    const collapseStyle = {
+      height: "50px"
     };
 
     return (
       <div>
-        {this.props.isOpen == false && (
-          <div className="sideNavClose">
-            <p className="burger" onClick={this.props.handleCollapse}>
-              <FontAwesomeIcon icon={faHamburger} size="lg" />
-            </p>
-            <p className="selectionClose" onClick={this.props.handleHome}>
-              <FontAwesomeIcon icon={faHome} size="lg" />
-            </p>
-            <p className="selectionClose" onClick={this.props.handleCalendar}>
-              <FontAwesomeIcon icon={faCalendar} size="lg" />
-            </p>
-            <p className="selectionClose" onClick={this.props.handleNotes}>
-              <FontAwesomeIcon icon={faStickyNote} size="lg" />
-            </p>
-          </div>
-        )}
-        {this.props.isOpen == true && (
-          <div className="sideNavOpen">
-            <p
-              className="burger"
-              style={pStyle}
-              onClick={this.props.handleCollapse}
-            >
-              <FontAwesomeIcon icon={faHamburger} size="lg" />
-            </p>
+        <div
+          className="sideNav"
+          style={this.props.isOpen ? navStyleOpen : navStyleClose}
+        >
+          {this.props.isOpen == false &&
+            this.state.options.map(x => (
+              <p
+                key={x.id}
+                data-value={x.destination}
+                className={x.destination == null ? "burger" : "selectionClose"}
+                onClick={x.func}
+              >
+                <FontAwesomeIcon icon={x.icon} size="lg" />
+                <span className="tooltip">{x.destination}</span>
+              </p>
+            ))}
+          {this.props.isOpen == true && (
             <Weather
               time={this.props.time}
               amPm={this.props.amPm}
@@ -60,32 +138,34 @@ class Sidebar extends Component {
               description={this.props.description}
               isOpen={this.props.isOpen}
             />
-            <p
-              className="selectionOpen"
-              onClick={this.props.handleHome}
-              style={pStyle}
-            >
-              <FontAwesomeIcon icon={faHome} size="lg" />
-              <span style={spanStyle}>Home</span>
-            </p>
-            <p
-              className="selectionOpen"
-              onClick={this.props.handleCalendar}
-              style={pStyle}
-            >
-              <FontAwesomeIcon icon={faCalendar} size="lg" />
-              <span style={spanStyle}>Calendar</span>
-            </p>
-            <p
-              className="selectionOpen"
-              onClick={this.props.handleNotes}
-              style={pStyle}
-            >
-              <FontAwesomeIcon icon={faStickyNote} size="lg" />
-              <span style={spanStyle}>Notes</span>
-            </p>
-          </div>
-        )}
+          )}
+          {this.props.isOpen == true &&
+            this.state.options.map(x => (
+              <div
+                key={x.id}
+                data-value={x.destination}
+                className={x.destination == null ? "burger" : "selectionOpen"}
+                style={pStyle}
+                onClick={x.func}
+              >
+                <i>
+                  <FontAwesomeIcon icon={x.icon} size="lg" />
+                </i>
+                <span>{x.destination}</span>
+                {x.expand ? (
+                  <div className="expandOption" onClick={this.expand}>
+                    {this.state.expanded ? (
+                      <FontAwesomeIcon icon={faChevronLeft} size="2x" />
+                    ) : (
+                      <FontAwesomeIcon icon={faChevronRight} size="2x" />
+                    )}
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+            ))}
+        </div>
       </div>
     );
   }
