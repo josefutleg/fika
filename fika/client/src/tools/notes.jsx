@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 import "../sidebar/sidebarStyle.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faStickyNote,
-  faChevronDown,
-  faSearch
-} from "@fortawesome/free-solid-svg-icons";
+import { faStickyNote } from "@fortawesome/free-solid-svg-icons";
 import CreateNote from "./createNote";
 
 class Notes extends Component {
@@ -23,11 +19,7 @@ class Notes extends Component {
       },
       { option: "Write Note", id: "001", func: this.props.viewProject }
     ],
-    quickNote: {
-      text: null,
-      date: "today"
-      //get date once handleSubmit is clicked before posting to db
-    }
+    isMinimized: false
   };
 
   componentDidMount() {
@@ -50,6 +42,17 @@ class Notes extends Component {
   handleWriteNote = e => {
     this.setState({ isQuickSelect: true });
     this.setState({ isExpanded: false });
+    this.setState({ isMinimized: false });
+  };
+
+  handleClose = e => {
+    this.setState({ isQuickSelect: false });
+    console.log("changed");
+  };
+
+  handleMinimize = e => {
+    if (this.state.isMinimized === false) this.setState({ isMinimized: true });
+    else this.setState({ isMinimized: false });
   };
 
   expand = e => {
@@ -57,40 +60,9 @@ class Notes extends Component {
       if (this.state.isExpanded === false) {
         this.setState({ isExpanded: true });
         this.setState({ isActive: true });
-        this.setState({ isQuickSelect: false });
       }
       return;
     } else this.handleClickOut();
-  };
-
-  handleChange = e => {
-    let value = e.target.value;
-    this.setState({ quickNote: { text: value } });
-  };
-  handleSubmit = () => {
-    //validate textfield further - if state contains "/n" or "" > DO NOT SUBMIT
-    if (this.state.quickNote.text) {
-      console.log(this.state.quickNote);
-    } else alert("write something!");
-  };
-  handleCancel = () => {
-    this.setState({ quickNote: { text: null } });
-    this.setState({ isQuickSelect: false });
-  };
-  //add to project functions
-  handleSearchInput = e => {
-    let value = e.target.value;
-    this.setState({ search: value });
-  };
-  handleSearchOne = e => {
-    //validate further. no spaces allowed
-    // read state.search ; if value.length > 4 then search db and add response to state. will need an array
-    if (this.state.search) {
-      console.log(this.state.search);
-    } else alert("write something!");
-  };
-  handleSearchAll = () => {
-    console.log("call to db. search all project names");
   };
 
   render() {
@@ -146,16 +118,12 @@ class Notes extends Component {
             ))}
           </div>
         </div>
-        {/* need function that will handle clickouts. 
-        if form is partially filled quicknote will minimize so data will not be lost. 
-        //if clickout detected and this.state.quickNote contains value */}
+
         {this.state.isQuickSelect === true && (
           <CreateNote
-            handleSearchAll={this.handleSearchAll}
-            handleCancel={this.handleCancel}
-            handleSearchInput={this.handleSearchInput}
-            handleSubmit={this.handleSubmit}
-            handleChange={this.handleChange}
+            handleClose={this.handleClose}
+            handleMinimize={this.handleMinimize}
+            isMinimized={this.state.isMinimized}
           />
         )}
       </React.Fragment>

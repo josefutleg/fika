@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCloudMoon,
-  faMoon,
-  faSun,
-  faCloudSun
-} from "@fortawesome/free-solid-svg-icons";
+import { faCloudSun } from "@fortawesome/free-solid-svg-icons";
 class Indicator extends Component {
   state = {
     amPm: "am",
@@ -13,7 +8,7 @@ class Indicator extends Component {
     icon: faCloudSun
   };
 
-  //Fog, Mist, Haze, Rain
+  //Fog, Mist, Haze, Rain, Smoke
 
   // changeIcon = () => {
   //   if (this.props.amPm == "am") {

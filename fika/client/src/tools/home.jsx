@@ -84,7 +84,7 @@ class Home extends Component {
       if (this.state.isExpanded === false) {
         this.setState({ isExpanded: true });
         this.setState({ isActive: true });
-        setTimeout(this.changeIcon, 1000);
+        setTimeout(this.changeIcon, 10);
       }
       return;
     } else this.handleClickOut();
