@@ -1,0 +1,114 @@
+.week-day {
+  /* background-color: rgb(0, 0, 63); */
+  background-color: crimson;
+  color: whitesmoke;
+  text-align: center;
+}
+/* .calendar-day {
+  background-color: snow;
+  padding: 5px;
+} */
+
+td.calendar-day-:hover,
+td.calendar-day-today:hover {
+  background-color: lightgray;
+  color: lemonchiffon;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 50px;
+  width: 50px;
+}
+/* .calendar-day empty {
+  background-color: lightslategray;
+  padding: 18px;
+} */
+.calendar-day-today {
+  color: lightgreen;
+  font-weight: bolder;
+  text-decoration: underline;
+  font-style: italic;
+}
+
+.calendar-day-today:hover {
+  background-color: white;
+  cursor: pointer;
+}
+
+table.calendar-month,
+table.calendar-year {
+  position: absolute;
+  background-color: gainsboro;
+  text-align: center;
+}
+
+table.calendar-month {
+  top: 75px;
+  left: 0px;
+}
+
+table.calendar-year {
+  left: 402px;
+  top: 75px;
+}
+
+th,
+td {
+  /* padding: 15px; */
+  display: table-cell;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+}
+.calendar-day-,
+.calendar-day-empty {
+  background-color: white;
+}
+
+td.month-span,
+td.month-span-current,
+td.year-span,
+td.year-span-current {
+  height: 50px;
+}
+
+.calendar-date {
+  border-left: solid 1px gainsboro;
+  border-right: solid 1px gainsboro;
+  border-bottom: solid 1px gainsboro;
+  background-color: white;
+}
+
+.calendar-navi {
+  /* padding: 6px; */
+  text-align: center;
+}
+.calendar-header {
+  font-size: 50px;
+  font-weight: bold;
+  margin: 0 10px;
+}
+.calendar-header:hover {
+  cursor: pointer;
+  color: gainsboro;
+}
+.month-span:hover,
+.year-span:hover,
+.month-span-current:hover,
+.year-span-current:hover {
+  cursor: pointer;
+  background-color: lightyellow;
+  color: black;
+}
+
+.month-span-current,
+.year-span-current {
+  color: lightseagreen;
+  text-decoration: underline;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.calendar-navi span:hover {
+  cursor: pointer;
+  color: gainsboro;
+}

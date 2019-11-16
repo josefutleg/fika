@@ -2,19 +2,23 @@ import React, { Component } from "react";
 import "../sidebar/sidebarStyle.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTasks } from "@fortawesome/free-solid-svg-icons";
+import CreateTask from "./createTask";
 
 class Tasks extends Component {
   state = {
     isExpanded: false,
     isActive: false,
+    isQuickSelect: false,
+    search: null,
     options: [
       {
-        option: "View All",
+        option: "View Tasks",
         id: "000",
         isSolid: true
       },
-      { option: "Create Task", id: "001" }
-    ]
+      { option: "New Task", id: "001" }
+    ],
+    isMinimized: false
   };
 
   componentDidMount() {
@@ -29,15 +33,25 @@ class Tasks extends Component {
   };
 
   handleViewTasks = e => {
-    this.props.loadTasks(e);
+    this.props.loadTasks();
     this.setState({ isExpanded: false });
     this.setState({ isActive: false });
   };
 
-  handleCreateTask = e => {
-    alert("create task");
+  handleNewTask = e => {
+    this.setState({ isQuickSelect: true });
     this.setState({ isExpanded: false });
-    this.setState({ isActive: false });
+    this.setState({ isMinimized: false });
+  };
+
+  handleClose = e => {
+    this.setState({ isQuickSelect: false });
+    console.log("changed");
+  };
+
+  handleMinimize = e => {
+    if (this.state.isMinimized === false) this.setState({ isMinimized: true });
+    else this.setState({ isMinimized: false });
   };
 
   expand = e => {
@@ -52,9 +66,9 @@ class Tasks extends Component {
 
   render() {
     const openDivStyle = {
-      width: "120px",
+      width: "200px",
       float: "left",
-      backgroundColor: "lightgreen",
+      // backgroundColor: "lightgreen",
       overflow: "hidden"
     };
     const closeDivStyle = {
@@ -62,10 +76,14 @@ class Tasks extends Component {
       display: "none"
     };
     const activeDivStyle = {
-      backgroundColor: "lightgreen"
+      backgroundColor: "cadetblue"
     };
     const inactiveDivStyle = {
-      backgroundColor: "dimgrey"
+      backgroundColor: "#222222"
+    };
+    const inputStyle = {
+      position: "relative",
+      top: "160px"
     };
     return (
       <React.Fragment>
@@ -86,15 +104,21 @@ class Tasks extends Component {
                 className="expandOption"
                 datavalue={x.id}
                 dataname={x.option}
-                onClick={
-                  x.isSolid ? this.handleViewTasks : this.handleCreateTask
-                }
+                onClick={x.isSolid ? this.handleViewTasks : this.handleNewTask}
               >
                 {x.option}
               </p>
             ))}
           </div>
         </div>
+
+        {this.state.isQuickSelect === true && (
+          <CreateTask
+            handleClose={this.handleClose}
+            handleMinimize={this.handleMinimize}
+            isMinimized={this.state.isMinimized}
+          />
+        )}
       </React.Fragment>
     );
   }

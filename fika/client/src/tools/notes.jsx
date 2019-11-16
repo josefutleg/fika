@@ -12,12 +12,12 @@ class Notes extends Component {
     search: null,
     options: [
       {
-        option: "View All",
+        option: "View Notes",
         id: "000",
         func: this.props.loadNotes,
         isSolid: true
       },
-      { option: "Write Note", id: "001", func: this.props.viewProject }
+      { option: "New Note", id: "001" }
     ],
     isMinimized: false
   };
@@ -34,7 +34,7 @@ class Notes extends Component {
   };
 
   handleViewNotes = e => {
-    this.props.loadNotes(e);
+    this.props.loadNotes();
     this.setState({ isExpanded: false });
     this.setState({ isActive: false });
   };
@@ -67,9 +67,9 @@ class Notes extends Component {
 
   render() {
     const openDivStyle = {
-      width: "120px",
+      width: "200px",
       float: "left",
-      backgroundColor: "lightgreen",
+      // backgroundColor: "lightgreen",
       overflow: "hidden"
     };
     const closeDivStyle = {
@@ -77,10 +77,10 @@ class Notes extends Component {
       display: "none"
     };
     const activeDivStyle = {
-      backgroundColor: "lightgreen"
+      backgroundColor: "seagreen"
     };
     const inactiveDivStyle = {
-      backgroundColor: "dimgrey"
+      backgroundColor: "#222222"
     };
     const inputStyle = {
       position: "relative",

@@ -118,7 +118,7 @@ class CreateNote extends Component {
             onClick={this.minimize}
           >
             <h4>
-              Add Note
+              New Note
               <span style={{ float: "right" }}>
                 <button
                   className="noteButton"
@@ -131,7 +131,7 @@ class CreateNote extends Component {
             <textarea
               rows="4"
               cols="30"
-              placeholder="write note..."
+              placeholder="write here..."
               style={textAreaStyle}
               onChange={this.handleChange}
               value={this.state.quickNote.text ? this.state.quickNote.text : ""}

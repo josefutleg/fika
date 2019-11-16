@@ -10,7 +10,7 @@
   position: fixed;
   margin: 0;
   padding: 0;
-  background-color: dimgrey;
+  background-color: #222222;
 }
 
 .filler1 {
@@ -27,7 +27,7 @@
   margin-bottom: 20px;
 }
 .burger:hover {
-  cursor: pointer;
+  cursor: default;
   color: aquamarine;
 }
 .selectionClose {
@@ -44,7 +44,7 @@
   opacity: 1;
 }
 .selectionClose:hover {
-  cursor: pointer;
+  cursor: default;
   color: lightgoldenrodyellow;
 }
 
@@ -58,13 +58,14 @@
 }
 
 .option:hover {
-  cursor: pointer;
+  cursor: default;
   opacity: 1;
 }
 .expandOptions {
   position: absolute;
   top: 0px;
   left: 67px;
+  background-color: inherit;
 }
 .quickSelect {
   position: absolute;
@@ -76,6 +77,16 @@
   background-color: lightgoldenrodyellow;
   z-index: -1;
 }
+.newTask {
+  position: absolute;
+  left: 100%;
+  padding: 20px;
+  top: 190px;
+  width: 300px;
+  height: 300px;
+  background-color: gainsboro;
+  z-index: -1;
+}
 
 .expandOption {
   width: 100%;
@@ -83,10 +94,12 @@
   margin: 0;
   padding: 10px;
   overflow: hidden;
+  color: white;
 }
+
 .optionIcon:hover {
   cursor: pointer;
-  color: lightgreen;
+  color: lightslategrey;
 }
 .expandOption:hover {
   color: whitesmoke;
@@ -102,9 +115,20 @@
   margin-left: 10px;
   color: snow;
 }
-.noteButton:hover {
-  cursor: pointer;
+.noteButton:hover,
+.minimizedButton:hover {
+  cursor: default;
   background-color: lightgray;
+}
+
+.minimizedButton {
+  background-color: cornflowerblue;
+  border: none;
+  border-radius: 5%;
+  margin-left: 10px;
+  color: snow;
+  position: absolute;
+  left: 40px;
 }
 
 .minimizedNote {

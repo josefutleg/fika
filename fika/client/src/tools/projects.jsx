@@ -9,7 +9,7 @@ class Projects extends Component {
     isActive: false,
     options: [
       {
-        option: "View All",
+        option: "View Projects",
         id: "000",
         func: this.props.handleProjects,
         isSolid: true
@@ -56,20 +56,20 @@ class Projects extends Component {
 
   render() {
     const openDivStyle = {
-      width: "120px",
+      width: "200px",
       float: "left",
-      overflow: "hidden",
-      backgroundColor: "lightgreen"
+      overflow: "hidden"
+      // backgroundColor: "lightgreen"
     };
     const closeDivStyle = {
       width: "0px",
       display: "none"
     };
     const activeDivStyle = {
-      backgroundColor: "lightgreen"
+      backgroundColor: "orangered"
     };
     const inactiveDivStyle = {
-      backgroundColor: "dimgrey"
+      backgroundColor: "#222222"
     };
     return (
       <React.Fragment>

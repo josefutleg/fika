@@ -39,11 +39,6 @@ class Indicator extends Component {
   //   }
   // };
 
-  // componentDidMount() {
-  //   setTimeout(this.changeIcon, 1000);
-  //   this.loadInterval = setInterval(this.changeIcon, 1800000);
-  // }
-
   render() {
     const divStyle = {
       float: "left",

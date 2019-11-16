@@ -3,6 +3,7 @@ import Projects from "../tools/projects";
 import Notes from "../tools/notes";
 import Tasks from "../tools/tasks";
 import Home from "../tools/home";
+import Calendar from "../tools/calendar";
 
 class Nav extends Component {
   state = {
@@ -25,13 +26,15 @@ class Nav extends Component {
         >
           <div className="filler1"></div>
           <Home
-            loadHome={this.props.loadHome}
+            userInfo={this.props.userInfo}
+            loadHomeFeatures={this.props.loadHomeFeatures}
             amPm={this.props.amPm}
             h={this.props.h}
             description={this.props.description}
             temp={this.props.temp}
             time={this.props.time}
           />
+          <Calendar loadCalendar={this.props.loadCalendar} />
           <Projects
             handleProjects={this.props.handleProjects}
             viewProject={this.props.viewProject}
