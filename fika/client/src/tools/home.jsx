@@ -70,14 +70,14 @@ class Home extends Component {
     if (this.props.amPm === "am") {
       if (this.props.description === "Clouds") {
         this.setState({ icon: faCloudSun });
-        console.log("checked2");
-        if (this.props.description === "Clear") {
-          this.setState({ icon: faSun });
-          console.log("checked");
-        }
-        if (this.props.description === "Rain") {
-          this.setState({ icon: faCloudSunRain });
-        }
+        console.log("am-clouds");
+      }
+      if (this.props.description === "Clear") {
+        this.setState({ icon: faSun });
+        console.log("am-clear");
+      }
+      if (this.props.description === "Rain") {
+        this.setState({ icon: faCloudSunRain });
       } else this.setState({ icon: faSun });
     }
     if (this.props.amPm === "pm") {

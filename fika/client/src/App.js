@@ -5,6 +5,7 @@ import Nav from "./sidebar/sideNav";
 import CalendarComponent from "./pages/CalendarComponent";
 import UpcomingEvents from "./pages/UpcomingEvents";
 import Calendar from "./tools/calendar";
+import Login from "./pages/LoginComponent";
 
 class App extends Component {
   state = {
@@ -64,7 +65,8 @@ class App extends Component {
     window.location.href = "/";
     this.setState({ loggedIn: false });
   };
-  handleLogIn = e => {
+  handleLogIn = userObj => {
+    this.setState({ user: userObj });
     this.setState({ loggedIn: true });
   };
 
@@ -160,10 +162,7 @@ class App extends Component {
             </main>
           )}
           {this.state.loggedIn === false && (
-            <div className="login">
-              <button onClick={this.handleLogIn}>log in</button>
-              <button onClick={() => alert("sign up")}>sign up</button>
-            </div>
+            <Login handleLogin={this.handleLogIn} />
             // <div className="mainCont">
             //   <div className="calendar">
             //     <CalendarComponent />

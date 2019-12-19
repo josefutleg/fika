@@ -4,16 +4,22 @@
   margin-top: 5%;
 }
 
-.login {
-  background-color: #222222;
+.login,
+.signup {
   width: 200px;
   height: 200px;
   margin: auto;
   margin-top: 20%;
   position: relative;
 }
-
-.login button {
+.login {
+  background-color: #222222;
+}
+.signup {
+  background-color: aquamarine;
+}
+.login button,
+.signup button {
   background-color: cornflowerblue;
   border: none;
   border-radius: 5%;
@@ -22,7 +28,8 @@
   margin: 150px 10px 20px 0px;
 }
 
-.login button:hover {
+.login button:hover,
+.signup button:hover {
   cursor: pointer;
   background-color: lightgray;
 }
