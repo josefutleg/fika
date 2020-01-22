@@ -22,7 +22,7 @@ class Nav extends Component {
       <React.Fragment>
         <div
           className="sideNav"
-          //   style={this.props.isExpanded ? openNavStyle : closeNavStyle}
+        //   style={this.props.isExpanded ? openNavStyle : closeNavStyle}
         >
           <div className="filler1"></div>
           <Home
@@ -38,8 +38,11 @@ class Nav extends Component {
           <Projects
             handleProjects={this.props.handleProjects}
             viewProject={this.props.viewProject}
+            userInfo={this.props.userInfo}
           />
-          <Notes loadNotes={this.props.loadNotes} />
+          <Notes loadNotes={this.props.loadNotes}
+            userInfo={this.props.userInfo}
+            newNote={this.props.newNote} />
           <Tasks loadTasks={this.props.loadTasks} />
           <div className="filler2"></div>
         </div>

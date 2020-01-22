@@ -6,12 +6,18 @@ import {
   faSearch,
   faStickyNote
 } from "@fortawesome/free-solid-svg-icons";
+import { _newNote } from "../services/CRUDservices";
+import moment from "moment";
+
+
 
 class CreateNote extends Component {
   state = {
+    dateObject: moment(),
     quickNote: {
       text: "",
-      date: "today"
+      date: "",
+      userId: this.props.userInfo.userId
       //get date once handleSubmit is clicked before posting to db
     },
     isMinimized: false,
@@ -19,19 +25,39 @@ class CreateNote extends Component {
   };
 
   // componentDidMount() {
-  //   document.addEventListener("mousedown", this.expand, false);
+  //   this.setState({ quickNote: { userId: this.props.userInfo.userId } })
   // }
   // componentWillUnmount() {
   //   document.removeEventListener("mousedown", this.expand, false);
   // }
+  day = () => {
+    return this.state.dateObject.format("D");
+  };
+
+  month = () => {
+    let month = this.state.dateObject.format("MMMM");
+    return month;
+  };
+  year = () => {
+    return this.state.dateObject.format("Y");
+  };
   handleChange = e => {
+    let currentMonth = this.month();
+    let currentDay = this.day();
+    let currentYear = this.year();
+    let currentDate = `${currentMonth} ${currentDay} ${currentYear}`
     let value = e.target.value;
-    this.setState({ quickNote: { text: value } });
+    let text = this.state.quickNote.text;
+    console.log(currentDate);
+    this.setState({ quickNote: { ...this.state.quickNote, ["text"]: value, ["date"]: currentDate } });
   };
   handleSubmit = () => {
     const checked = this.state.quickNote.text.trim();
     if (checked) {
-      console.log(checked);
+      let noteObj = this.state.quickNote
+      console.log(noteObj);
+      _newNote(noteObj);
+      this.props.newNote(noteObj);
       //add checked to db with timestamp
       this.props.handleClose();
       this.setState({ quickNote: { text: "" } });

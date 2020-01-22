@@ -17,12 +17,12 @@ const databaseUrl = "fika_db";
 const collections = ["users, notes, projects, tasks, events"];
 const db = mongojs(databaseUrl, collections);
 
-db.on("error", function(error) {
+db.on("error", function (error) {
   console.log("database error:", error);
 });
 
 dotenv.config();
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Headers",
@@ -50,20 +50,20 @@ function verifyWebToken(req, res, next) {
   }
 }
 
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
   res.send(
     "routes available: login : post -> /login, signup : post -> /signup, get all the pets: get -> /pets, get one pet: get -> /pets/:id, update a pet: post -> /pets/update/:id, deleting a pet: post -> /pets/:id, creating a pet: post -> /pets"
   );
 });
 
 var userId, username;
-app.post("/login", function(req, res) {
+app.post("/login", function (req, res) {
   // console.log(username + " " + password)
   db.users.findOne(
     {
       username: req.body.username
     },
-    function(error, result) {
+    function (error, result) {
       if (!result) return res.status(404).json({ error: "user not found" });
 
       if (!bcrypt.compareSync(req.body.password, result.password))
@@ -86,21 +86,21 @@ app.post("/login", function(req, res) {
         token: token,
         username: result.username,
         userId: result._id,
-        score: result.score,
-        currentGame: result.currentGame,
-        input: result.input,
-        vote: result.vote
+        // score: result.score,
+        // currentGame: result.currentGame,
+        // input: result.input,
+        // vote: result.vote
       });
     }
   );
 });
 
-app.post("/signup", function(req, res) {
+app.post("/signup", function (req, res) {
   db.users.findOne(
     {
       username: req.body.username
     },
-    function(error, result) {
+    function (error, result) {
       if (result) return res.status(404).json({ error: "user already exists" });
 
       if (!req.body.password)
@@ -113,14 +113,14 @@ app.post("/signup", function(req, res) {
 
       console.log("got to line 92");
 
-      bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(req.body.password, salt, function(err, hash) {
+      bcrypt.genSalt(10, function (err, salt) {
+        bcrypt.hash(req.body.password, salt, function (err, hash) {
           db.users.insert(
             {
               username: req.body.username,
               password: hash
             },
-            function(error, user) {
+            function (error, user) {
               console.log("got to line 101");
 
               // Log any errors
@@ -139,12 +139,61 @@ app.post("/signup", function(req, res) {
   );
 });
 
-app.post("/signup", function(req, res) {
+//find user's notes
+app.get("/notes/user/:id", function (req, res) {
+
+  db.notes.find(
+    {
+      "userId": `${req.params.id}`
+    },
+    function (error, result) {
+      if (error) {
+        res.send(error);
+      } else {
+        res.json(result);
+        console.log(result)
+      }
+    }
+  );
+});
+
+//delete note
+app.post('/note-remove/:id', function (req, res) {
+  //curl -X POST http://localhost:3001/pets/5bb2de27c385cb3290b0e598
+
+  db.notes.remove({
+    "_id": mongojs.ObjectID(req.params.id)
+  }, function (error, removed) {
+    if (error) {
+      res.send(error);
+    } else {
+      res.json(req.params.id);
+      console.log("deleted");
+    }
+  });
+});
+
+app.post("/new-note", function (req, res) {
+  console.log(req.body)
+  db.notes.insert(req.body, function (error, newNote) {
+    // Log any errors
+    if (error) {
+      res.send(error);
+    } else {
+      res.json(newNote);
+      console.log("saved");
+    }
+  });
+
+  // })
+})
+
+app.post("/signup", function (req, res) {
   db.users.findOne(
     {
       username: req.body.username
     },
-    function(error, result) {
+    function (error, result) {
       if (result) return res.status(404).json({ error: "user already exists" });
 
       if (!req.body.password)
@@ -157,14 +206,14 @@ app.post("/signup", function(req, res) {
 
       console.log("got to line 92");
 
-      bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(req.body.password, salt, function(err, hash) {
+      bcrypt.genSalt(10, function (err, salt) {
+        bcrypt.hash(req.body.password, salt, function (err, hash) {
           db.users.insert(
             {
               username: req.body.username,
               password: hash
             },
-            function(error, user) {
+            function (error, user) {
               console.log("got to line 101");
 
               // Log any errors
@@ -198,7 +247,7 @@ function CurrentWeather(temp, description) {
   (this.temp = temp), (this.description = description);
 }
 
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
   let weatherArr = [];
 
   axios
@@ -222,7 +271,7 @@ app.get("/", function(req, res) {
     });
 });
 
-app.get("/currentWeather", function(req, res) {
+app.get("/currentWeather", function (req, res) {
   axios
     .get(
       `https://api.openweathermap.org/data/2.5/weather?id=5391959&lang=en&units=imperial&appid=${client_id}`

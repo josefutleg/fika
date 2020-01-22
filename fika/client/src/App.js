@@ -6,6 +6,8 @@ import CalendarComponent from "./pages/CalendarComponent";
 import UpcomingEvents from "./pages/UpcomingEvents";
 import Calendar from "./tools/calendar";
 import Login from "./pages/LoginComponent";
+import NotesPage from "./pages/NotesPage"
+import { _loadNotes, _deleteNote } from "./services/CRUDservices"
 
 class App extends Component {
   state = {
@@ -66,7 +68,7 @@ class App extends Component {
     this.setState({ loggedIn: false });
   };
   handleLogIn = userObj => {
-    this.setState({ user: userObj });
+    this.setState({ userInfo: userObj });
     this.setState({ loggedIn: true });
   };
 
@@ -81,8 +83,34 @@ class App extends Component {
   };
   loadNotes = event => {
     this.setState({ isExpanded: false });
-    this.setState({ page: "notes" });
+    _loadNotes(this.state.userInfo.userId).then(rj => {
+
+      this.setState({ notes: rj })
+      console.log(rj)
+      this.setState({ page: "notes" });
+    });
   };
+
+  newNote = (noteObj) => {
+    // let newObj = [...this.state.notes];
+    // newObj.push(noteObj);
+    // this.setState({ notes: newObj });
+    _loadNotes(this.state.userInfo.userId).then(rj => {
+
+      this.setState({ notes: rj })
+      console.log(rj)
+      this.setState({ page: "notes" });
+    });
+  }
+
+  handleDeleteNote = event => {
+    let id = event.target.getAttribute("data-id");
+    _deleteNote(id).then(deletedNoteId => {
+      let notes = this.state.notes.filter(note => note._id !== deletedNoteId);
+      this.setState({ notes });
+    });
+  };
+
   loadProjects = event => {
     this.setState({ isExpanded: false });
     this.setState({ page: "projects" });
@@ -90,9 +118,9 @@ class App extends Component {
   viewProject = event => {
     // event.stopPropagation();
     console.log(event.target.getAttribute("dataname"));
-    console.log(event.target.getAttribute("datavalue"));
+    console.log(event.target.getAttribute("dataid"));
     let currentProjectName = event.target.getAttribute("dataname");
-    let currentProjectId = event.target.getAttribute("datavalue");
+    let currentProjectId = event.target.getAttribute("dataid");
     this.setState({ viewProject: currentProjectName });
     this.setState({ isExpanded: false });
     this.setState({ page: "view project" });
@@ -124,6 +152,7 @@ class App extends Component {
               expandNav={this.collapse}
               isExpanded={this.state.isExpanded}
               loadNotes={this.loadNotes}
+              newNote={this.newNote}
               loadTasks={this.loadTasks}
               loadCalendar={this.loadCalendar}
               loadHomeFeatures={this.loadHomeFeatures}
@@ -153,7 +182,7 @@ class App extends Component {
                   </div>
                 </React.Fragment>
               )}
-              {this.state.page === "notes" && <h1>Notes!</h1>}
+              {this.state.page === "notes" && <NotesPage notes={this.state.notes} handleDelete={this.handleDeleteNote} />}
               {this.state.page === "projects" && <h1>Projects!</h1>}
               {this.state.page === "view project" && (
                 <h1>{this.state.viewProject}</h1>

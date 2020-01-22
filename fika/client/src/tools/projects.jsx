@@ -2,22 +2,30 @@ import React, { Component } from "react";
 import "../sidebar/sidebarStyle.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faProjectDiagram } from "@fortawesome/free-solid-svg-icons";
+import CreateProject from "./createProject";
 
 class Projects extends Component {
   state = {
     isExpanded: false,
     isActive: false,
+    isQuickSelect: false,
     options: [
       {
-        option: "View Projects",
+        name: "View Projects",
         id: "000",
-        func: this.props.handleProjects,
         isSolid: true
       },
-      { option: "Project 1", id: "001", func: this.props.viewProject },
-      { option: "Project 2", id: "002", func: this.props.viewProject },
-      { option: "Project 3", id: "003", func: this.props.viewProject }
-    ]
+      {
+        name: "New Project", id: "newProject"
+      },
+      {
+        name: "Project 1", id: "5e1ea63791789f7bf9ade9fe"
+      },
+      {
+        name: "Project 2", id: "5e4ea6579r789f7bf9ade4zv"
+      }
+    ],
+    isMinimized: false,
   };
 
   //need a componentdidmount once mongo is connected. all options except view all will be database saved. use 'id' key to store mongo ._id to send request to db
@@ -42,6 +50,31 @@ class Projects extends Component {
     this.props.viewProject(e);
     this.setState({ isExpanded: false });
     this.setState({ isActive: false });
+  };
+
+  handleNewProject = e => {
+    this.setState({ isQuickSelect: true });
+    this.setState({ isExpanded: false });
+    this.setState({ isMinimized: false });
+  };
+
+  handleClose = e => {
+    this.setState({ isQuickSelect: false });
+    console.log("changed");
+  };
+
+  handleClick = e => {
+    e.persist();
+    let loadFunc = e.target.attributes.dataid.value
+    console.log(loadFunc);
+    if (loadFunc == "newProject") {
+      this.handleNewProject();
+    } else this.handleViewProject(e);
+  }
+
+  handleMinimize = e => {
+    if (this.state.isMinimized === false) this.setState({ isMinimized: true });
+    else this.setState({ isMinimized: false });
   };
 
   expand = e => {
@@ -92,17 +125,25 @@ class Projects extends Component {
               <p
                 className="expandOption"
                 key={x.id}
-                datavalue={x.id}
-                dataname={x.option}
+                dataid={x.id}
+                dataname={x.name}
                 onClick={
-                  x.isSolid ? this.handleViewProjects : this.handleViewProject
+                  x.isSolid ? this.handleViewProjects : this.handleClick
                 }
               >
-                {x.option}
+                {x.name}
               </p>
             ))}
           </div>
         </div>
+        {this.state.isQuickSelect === true && (
+          <CreateProject
+            handleClose={this.handleClose}
+            handleMinimize={this.handleMinimize}
+            isMinimized={this.state.isMinimized}
+            userInfo={this.props.userInfo}
+          />
+        )}
       </React.Fragment>
     );
   }

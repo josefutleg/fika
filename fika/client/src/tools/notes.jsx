@@ -124,6 +124,8 @@ class Notes extends Component {
             handleClose={this.handleClose}
             handleMinimize={this.handleMinimize}
             isMinimized={this.state.isMinimized}
+            userInfo={this.props.userInfo}
+            newNote={this.props.newNote}
           />
         )}
       </React.Fragment>

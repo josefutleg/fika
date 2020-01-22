@@ -2,10 +2,15 @@ import React, { Component } from "react";
 import "../App.css";
 import { _login, _signUp } from "../services/AuthService";
 class Login extends Component {
-  state = { login: true };
+  state = {
+    logged_in: false,
+    newUser: false
+  };
 
   changeForm = () => {
-    this.setState({ login: !this.state.login });
+    if (this.state.newUser === false) {
+      this.setState({ newUser: true });
+    } else this.setState({ newUser: false })
   };
 
   login = event => {
@@ -18,17 +23,17 @@ class Login extends Component {
       let userObj;
       if (res.token) {
         console.log(res);
-        //   userObj.userId = res.userId
-        // this.setState({ userId: res.userId });
-        // this.setState({ username: res.username });
-        // this.setState({ score: res.score });
-        // this.setState({ currentGame: res.currentGame });
-        // this.setState({ input: res.input });
-        // this.setState({ vote: res.vote });
-        // this.setState({ logged_in: true }, function() {
-        //   localStorage.setItem("token", res.token);
-        //   // alert(this.state.response);
-        // });
+        this.setState({ userId: res.userId });
+        this.setState({ username: res.username });
+        this.setState({ logged_in: true }, function () {
+          localStorage.setItem("token", res.token);
+          alert(res.message);
+          userObj = {
+            userId: res.userId,
+            username: res.username
+          }
+          this.props.handleLogin(userObj);
+        });
       } else {
         alert("invalid username/password");
       }
@@ -59,7 +64,7 @@ class Login extends Component {
   render() {
     return (
       <React.Fragment>
-        {this.state.login === true && (
+        {this.state.newUser === false && (
           <div className="login">
             <form onSubmit={this.login}>
               <input type="text" name="name" placeholder="username" />
@@ -69,13 +74,13 @@ class Login extends Component {
               <button>
                 <span>log in</span>
               </button>
-              <button onClick={this.changeForm}>
-                <span>new user?</span>
-              </button>
             </form>
+            <button onClick={this.changeForm}>
+              <span>new user?</span>
+            </button>
           </div>
         )}
-        {this.state.login === false && (
+        {this.state.newUser === true && (
           <div className="signup">
             <form onSubmit={this.signUp}>
               <input type="text" name="name" placeholder="new username" />
